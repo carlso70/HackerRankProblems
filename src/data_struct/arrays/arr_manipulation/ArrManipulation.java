@@ -4,21 +4,42 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class ArrManipulation {
 
     // Complete the arrayManipulation function below.
     static long arrayManipulation(int n, int[][] queries) {
+        long[] arr = new long[n + 1];
 
+        // PREFIX SUM is the only way to complete the test cases without a timeout
+        for (int i = 0; i < queries.length; i++) {
+            int a = queries[i][0];
+            int b = queries[i][1];
+            int k = queries[i][2];
+            arr[a - 1] += k;
+            arr[b] -= k;
+        }
 
-        return 0;
+        long max = 0; // global max
+        long ct = 0; // current total
+        for (int i = 0; i < arr.length; i++) {
+            ct += arr[i];
+            if (ct > max)
+                max = ct;
+        }
+
+        System.out.println(Arrays.toString(arr));
+        System.out.println(max);
+
+        return max;
     }
 
 
     public static void main(String[] args) throws IOException {
 
-        File f = new File("./src/data_struct/arrays/arr_manipulation/crush-testcases/input/input00.txt");
+        File f = new File("./src/data_struct/arrays/arr_manipulation/crush-testcases/input/input04.txt");
         final Scanner scanner = new Scanner(f);
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("out.txt"));
 
