@@ -115,7 +115,7 @@ class Node {
             inOrder(root.right);
     }
 
-    public static Node insert(Node root, int data) {
+    private static Node insert(Node root, int data) {
         if (root == null) {
             return new Node(data);
         } else {
@@ -132,7 +132,7 @@ class Node {
     }
 
 
-    public static int height(Node root) {
+    private static int height(Node root) {
         if (root == null)
             return -1;
 
@@ -209,27 +209,16 @@ class Node {
      * @return
      */
     public static boolean checkBST(Node root) {
-        // Traverse whole tree using BFS
-        Queue<Node> list = new LinkedList<>();
-        list.add(root);
-        while (!list.isEmpty()) {
-            Node temp = list.poll();
-            if (temp.left != null) {
-                list.add(temp.left);
-                System.out.println("Current temp = " + temp.data + ", temp.left = " + temp.left.data);
-                if (temp.data <= temp.left.data)
-                    return false;
-            }
-            if (temp.right != null) {
-                list.add(temp.right);
-                System.out.println("Current temp = " + temp.data + ", temp.right = " + temp.right.data);
-                if (temp.data >= temp.right.data)
-                    return false;
-            }
-        }
-        return true;
+        return isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
+    public static boolean isBST(Node node, int min, int max) {
+        if (node == null)
+            return true;
+        if (node.data <= min || node.data > max)
+            return false;
+        return isBST(node.left, min, node.data) && isBST(node.right, node.data, max);
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
         File f = new File("./src/data_struct/trees/is-binary-search-tree-testcases/input/input00.txt");
